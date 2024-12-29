@@ -1,0 +1,19 @@
+name: randomforest
+dependencies:
+  - python=3.8
+  - pandas
+  - scikit-learn
+  - seaborn
+  - matplotlib
+  - category_encoders
+  - numpy
+  - pip
+  - ipykernel
+  - jupyter
+  - jupyterlab
+  - notebook
+  - nb_conda_kernels
+  - quarto
+  
+  pip:
+  - quarto
