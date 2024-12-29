@@ -1,0 +1,222 @@
+[
+  {
+    "objectID": "randomforest_model.html",
+    "href": "randomforest_model.html",
+    "title": "2  Árbol de Decisión y Random Forest: La Calificación de los Partidos Políticos en México",
+    "section": "",
+    "text": "3 Modelo de Árbol de Decisión:",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Árbol de Decisión y Random Forest: La Calificación de los Partidos Políticos en México</span>"
+    ]
+  },
+  {
+    "objectID": "randomforest_model.html#cargar-las-libererías",
+    "href": "randomforest_model.html#cargar-las-libererías",
+    "title": "2  Árbol de Decisión y Random Forest: La Calificación de los Partidos Políticos en México",
+    "section": "3.1 Cargar las Libererías:",
+    "text": "3.1 Cargar las Libererías:\n\n\nMostrar el Código\nimport pandas as pd\nfrom sklearn.model_selection import train_test_split, GridSearchCV\nfrom sklearn.tree import DecisionTreeClassifier\nfrom sklearn.tree import DecisionTreeRegressor\nfrom sklearn.metrics import accuracy_score, f1_score\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nimport category_encoders as ce\nimport numpy as np\nimport pandas as pd\n\nfrom sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor\nfrom sklearn.metrics import accuracy_score, f1_score",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Árbol de Decisión y Random Forest: La Calificación de los Partidos Políticos en México</span>"
+    ]
+  },
+  {
+    "objectID": "randomforest_model.html#cargar-los-datos",
+    "href": "randomforest_model.html#cargar-los-datos",
+    "title": "2  Árbol de Decisión y Random Forest: La Calificación de los Partidos Políticos en México",
+    "section": "3.2 Cargar los Datos:",
+    "text": "3.2 Cargar los Datos:\nSe cargan los datos desde un archivo CSV utilizando la librería pandas.\n\n\nMostrar el Código\ndf = pd.read_csv('/home/barea/randomforest/{{cookiecutter.project_slug}}/data/Partido_2023.csv')\ndf.head(10)\n\n\n\n\n\n\n\n\n\nP11_1_19\nP11_1A_12\nP11_1A_17\nP11_1A_18\nP11_1A_22\nP11_1A_23\nP11_1A_19\n\n\n\n\n0\n4\n3.0\n4.0\n3.0\n7.0\n5.0\n2.0\n\n\n1\n2\n6.0\n6.0\n9.0\n6.0\n6.0\n7.0\n\n\n2\n2\n7.0\n5.0\n1.0\n5.0\n5.0\n7.0\n\n\n3\n9\nNaN\nNaN\nNaN\n2.0\n2.0\nNaN\n\n\n4\n3\n7.0\n7.0\n8.0\n5.0\n7.0\n5.0\n\n\n5\n4\n1.0\nNaN\nNaN\nNaN\nNaN\n1.0\n\n\n6\n3\n3.0\n3.0\n5.0\n6.0\n6.0\n5.0\n\n\n7\n3\n2.0\n2.0\nNaN\n1.0\n7.0\n5.0\n\n\n8\n3\n5.0\n6.0\n6.0\n7.0\n7.0\n3.0\n\n\n9\n4\n5.0\n5.0\n7.0\n5.0\n5.0\n1.0",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Árbol de Decisión y Random Forest: La Calificación de los Partidos Políticos en México</span>"
+    ]
+  },
+  {
+    "objectID": "randomforest_model.html#imputar-los-datos-del-tibble-por-la-mediana",
+    "href": "randomforest_model.html#imputar-los-datos-del-tibble-por-la-mediana",
+    "title": "2  Árbol de Decisión y Random Forest: La Calificación de los Partidos Políticos en México",
+    "section": "3.3 Imputar los Datos del Tibble por la Mediana:",
+    "text": "3.3 Imputar los Datos del Tibble por la Mediana:\nSe imputan los valores nulos en el DataFrame utilizando la mediana de cada columna.\n\n\nMostrar el Código\ndf = df.fillna(df.median())",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Árbol de Decisión y Random Forest: La Calificación de los Partidos Políticos en México</span>"
+    ]
+  },
+  {
+    "objectID": "randomforest_model.html#explorarar-si-existen-valores-nulos",
+    "href": "randomforest_model.html#explorarar-si-existen-valores-nulos",
+    "title": "2  Árbol de Decisión y Random Forest: La Calificación de los Partidos Políticos en México",
+    "section": "3.4 Explorarar si Existen Valores Nulos:",
+    "text": "3.4 Explorarar si Existen Valores Nulos:\nSe verifica la existencia de valores nulos en el Tibble.\n\n\nMostrar el Código\ndf.isnull().sum()\n\n\nP11_1_19     0\nP11_1A_12    0\nP11_1A_17    0\nP11_1A_18    0\nP11_1A_22    0\nP11_1A_23    0\nP11_1A_19    0\ndtype: int64",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Árbol de Decisión y Random Forest: La Calificación de los Partidos Políticos en México</span>"
+    ]
+  },
+  {
+    "objectID": "randomforest_model.html#separar-de-variables-predictoras-y-objetivo",
+    "href": "randomforest_model.html#separar-de-variables-predictoras-y-objetivo",
+    "title": "2  Árbol de Decisión y Random Forest: La Calificación de los Partidos Políticos en México",
+    "section": "3.5 Separar de Variables Predictoras y Objetivo:",
+    "text": "3.5 Separar de Variables Predictoras y Objetivo:\nSe separan las variables predictoras (X) de la variable objetivo (y).\n\n\nMostrar el Código\nX = df.drop(['P11_1A_19'], axis=1)\ny = df['P11_1A_19']",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Árbol de Decisión y Random Forest: La Calificación de los Partidos Políticos en México</span>"
+    ]
+  },
+  {
+    "objectID": "randomforest_model.html#conocer-las-variables-predictoras-y-de-entrenamiento",
+    "href": "randomforest_model.html#conocer-las-variables-predictoras-y-de-entrenamiento",
+    "title": "2  Árbol de Decisión y Random Forest: La Calificación de los Partidos Políticos en México",
+    "section": "4.1 Conocer las Variables Predictoras y de Entrenamiento:",
+    "text": "4.1 Conocer las Variables Predictoras y de Entrenamiento:\n\n\nMostrar el Código\nprint(X_train.columns) \nprint(X_test.columns)\n\n\nIndex(['P11_1_19', 'P11_1A_12', 'P11_1A_17', 'P11_1A_18', 'P11_1A_22',\n       'P11_1A_23'],\n      dtype='object')\nIndex(['P11_1_19', 'P11_1A_12', 'P11_1A_17', 'P11_1A_18', 'P11_1A_22',\n       'P11_1A_23'],\n      dtype='object')",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Árbol de Decisión y Random Forest: La Calificación de los Partidos Políticos en México</span>"
+    ]
+  },
+  {
+    "objectID": "randomforest_model.html#codificar-las-variables",
+    "href": "randomforest_model.html#codificar-las-variables",
+    "title": "2  Árbol de Decisión y Random Forest: La Calificación de los Partidos Políticos en México",
+    "section": "4.2 Codificar las Variables:",
+    "text": "4.2 Codificar las Variables:\nSe codifican las variables categóricas utilizando OrdinalEncoder.\n\n\nMostrar el Código\nencoder = ce.OrdinalEncoder(cols=[\n'P11_1_19',\n'P11_1A_12',\n'P11_1A_17',\n'P11_1A_18',\n'P11_1A_22',\n'P11_1A_23',\n])\n\nX_train_encoded = encoder.fit_transform(X_train)\nX_test_encoded = encoder.transform(X_test)\n\n\n/home/barea/anaconda3/envs/investigacion/lib/python3.9/site-packages/sklearn/base.py:411: FutureWarning: The `_get_tags` method is deprecated in 1.6 and will be removed in 1.7. Please implement the `__sklearn_tags__` method.\n  warnings.warn(",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Árbol de Decisión y Random Forest: La Calificación de los Partidos Políticos en México</span>"
+    ]
+  },
+  {
+    "objectID": "randomforest_model.html#asegurar-que-no-haya-valores-nan-o-inf-en-los-datos-de-entrenamiento-y-prueba",
+    "href": "randomforest_model.html#asegurar-que-no-haya-valores-nan-o-inf-en-los-datos-de-entrenamiento-y-prueba",
+    "title": "2  Árbol de Decisión y Random Forest: La Calificación de los Partidos Políticos en México",
+    "section": "4.3 Asegurar que no Haya Valores NaN o inf en los Datos de Entrenamiento y Prueba:",
+    "text": "4.3 Asegurar que no Haya Valores NaN o inf en los Datos de Entrenamiento y Prueba:\nSe aseguran que no existan valores NaN o infinitos en los datos de entrenamiento y prueba.\n\n\nMostrar el Código\nX_train = X_train.replace([np.inf, -np.inf], np.nan).dropna()\nX_test = X_test.replace([np.inf, -np.inf], np.nan).dropna()",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Árbol de Decisión y Random Forest: La Calificación de los Partidos Políticos en México</span>"
+    ]
+  },
+  {
+    "objectID": "randomforest_model.html#buscar-los-hiperparámetros-del-árbpl-de-decisión",
+    "href": "randomforest_model.html#buscar-los-hiperparámetros-del-árbpl-de-decisión",
+    "title": "2  Árbol de Decisión y Random Forest: La Calificación de los Partidos Políticos en México",
+    "section": "4.4 Buscar los Hiperparámetros del Árbpl de Decisión:",
+    "text": "4.4 Buscar los Hiperparámetros del Árbpl de Decisión:\nSe realiza una búsqueda de hiperparámetros para el modelo de Árbol de Decisión utilizando GridSearchCV.\n\n\nMostrar el Código\nparam_grid = {\n    'max_depth': [2, 4, 6, 8, 10],\n    'min_samples_split': [2, 5, 10],\n    'min_samples_leaf': [1, 2, 4]\n}\ngrid_search_tree = GridSearchCV(DecisionTreeClassifier(random_state=0), param_grid, cv=5)\ngrid_search_tree.fit(X_train, y_train)\nbest_tree = grid_search_tree.best_estimator_",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Árbol de Decisión y Random Forest: La Calificación de los Partidos Políticos en México</span>"
+    ]
+  },
+  {
+    "objectID": "randomforest_model.html#predecir-y-evaluar-del-árbol-de-decisión",
+    "href": "randomforest_model.html#predecir-y-evaluar-del-árbol-de-decisión",
+    "title": "2  Árbol de Decisión y Random Forest: La Calificación de los Partidos Políticos en México",
+    "section": "4.5 Predecir y Evaluar del Árbol de Decisión:",
+    "text": "4.5 Predecir y Evaluar del Árbol de Decisión:\nSe predicen y evalúan los resultados del modelo de Árbol de Decisión.\n\n\nMostrar el Código\ny_train_pred_tree = best_tree.predict(X_train)\ny_test_pred_tree = best_tree.predict(X_test)\n\ntrain_accuracy_tree = accuracy_score(y_train, y_train_pred_tree)\ntest_accuracy_tree = accuracy_score(y_test, y_test_pred_tree)\ntrain_f1_tree = f1_score(y_train, y_train_pred_tree, average='micro')\ntest_f1_tree = f1_score(y_test, y_test_pred_tree, average='micro')\n\nprint('Accuracy en train (árbol de decisión):', train_accuracy_tree)\nprint('Accuracy en test (árbol de decisión):', test_accuracy_tree)\nprint(\"El f1 score en train (árbol de decisión): \", train_f1_tree)\nprint(\"El f1 score en test (árbol de decisión): \", test_f1_tree)\n\n\nAccuracy en train (árbol de decisión): 0.7116146062472504\nAccuracy en test (árbol de decisión): 0.6815226689478187\nEl f1 score en train (árbol de decisión):  0.7116146062472504\nEl f1 score en test (árbol de decisión):  0.6815226689478187",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Árbol de Decisión y Random Forest: La Calificación de los Partidos Políticos en México</span>"
+    ]
+  },
+  {
+    "objectID": "randomforest_model.html#dividir-el-conjunto-de-datos-en-entrenamiento-y-prueba",
+    "href": "randomforest_model.html#dividir-el-conjunto-de-datos-en-entrenamiento-y-prueba",
+    "title": "2  Árbol de Decisión y Random Forest: La Calificación de los Partidos Políticos en México",
+    "section": "6.1 Dividir el Conjunto de Datos en Entrenamiento y Prueba:",
+    "text": "6.1 Dividir el Conjunto de Datos en Entrenamiento y Prueba:\nSe dividen los datos en conjuntos de entrenamiento y prueba.\n\n\nMostrar el Código\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Árbol de Decisión y Random Forest: La Calificación de los Partidos Políticos en México</span>"
+    ]
+  },
+  {
+    "objectID": "randomforest_model.html#ajustar-el-modelod-de-random-forest",
+    "href": "randomforest_model.html#ajustar-el-modelod-de-random-forest",
+    "title": "2  Árbol de Decisión y Random Forest: La Calificación de los Partidos Políticos en México",
+    "section": "6.2 Ajustar el Modelod de Random Forest:",
+    "text": "6.2 Ajustar el Modelod de Random Forest:\n\n\nMostrar el Código\nmodelo_rf = RandomForestClassifier(n_estimators=100, random_state=42)\nmodelo_rf.fit(X_train, y_train)\n\n\nRandomForestClassifier(random_state=42)In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.RandomForestClassifier?Documentation for RandomForestClassifieriFittedRandomForestClassifier(random_state=42)",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Árbol de Decisión y Random Forest: La Calificación de los Partidos Políticos en México</span>"
+    ]
+  },
+  {
+    "objectID": "randomforest_model.html#preparar-datos-para-visualizar",
+    "href": "randomforest_model.html#preparar-datos-para-visualizar",
+    "title": "2  Árbol de Decisión y Random Forest: La Calificación de los Partidos Políticos en México",
+    "section": "7.1 Preparar Datos para Visualizar:",
+    "text": "7.1 Preparar Datos para Visualizar:\n\n\nMostrar el Código\nimportances = modelo_rf.feature_importances_\nfeature_names = X_train.columns",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Árbol de Decisión y Random Forest: La Calificación de los Partidos Políticos en México</span>"
+    ]
+  },
+  {
+    "objectID": "randomforest_model.html#visualizar-la-importancia-de-las-características",
+    "href": "randomforest_model.html#visualizar-la-importancia-de-las-características",
+    "title": "2  Árbol de Decisión y Random Forest: La Calificación de los Partidos Políticos en México",
+    "section": "7.2 Visualizar la Importancia de las Características:",
+    "text": "7.2 Visualizar la Importancia de las Características:\nSe visualiza la importancia de las características en el modelo de Random Forest.\n\n\nMostrar el Código\nindices = np.argsort(importances)[::-1]\nplt.figure(figsize=(15, 6))\nplt.title(\"Importancia de cada Feature en el Random Forest\")\nplt.bar(range(X_train.shape[1]), importances[indices], align=\"center\")\nplt.xticks(range(X_train.shape[1]), feature_names[indices], rotation=90)\nplt.xlim([-1, X_train.shape[1]])\nplt.show()",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Árbol de Decisión y Random Forest: La Calificación de los Partidos Políticos en México</span>"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Desition Tree-Random Forest",
+    "section": "",
+    "text": "1 Índice Detallado",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Índice Detallado</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#introducción",
+    "href": "index.html#introducción",
+    "title": "Desition Tree-Random Forest",
+    "section": "1.1 1. Introducción",
+    "text": "1.1 1. Introducción\nEn este documento se presentan dos modelos de aprendizaje supervisado: un Árbol de Decisión y un Bosque Aleatorio. Ambos modelos son ampliamente utilizados en la clasificación y regresión debido a su capacidad para manejar datos complejos y no lineales.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Índice Detallado</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#árbol-de-decisión",
+    "href": "index.html#árbol-de-decisión",
+    "title": "Desition Tree-Random Forest",
+    "section": "1.2 2. Árbol de Decisión",
+    "text": "1.2 2. Árbol de Decisión\n\n1.2.1 2.1 Descripción del Modelo\nEl Árbol de Decisión es un modelo predictivo que utiliza un conjunto de reglas de decisión derivadas de los datos para realizar predicciones. Cada nodo interno representa una prueba en un atributo, cada rama representa el resultado de la prueba y cada hoja representa una etiqueta de clase.\n\n\n1.2.2 2.2 Ventajas y Desventajas\n\nVentajas: Fácil de interpretar y visualizar, no requiere normalización de datos, puede manejar datos categóricos y numéricos.\nDesventajas: Propenso al sobreajuste, puede ser inestable con pequeñas variaciones en los datos.\n\n\n\n1.2.3 2.3 Implementación\nSe describe el proceso de implementación del Árbol de Decisión utilizando la biblioteca scikit-learn en Python, incluyendo la selección de hiperparámetros y la evaluación del modelo.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Índice Detallado</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#bosque-aleatorio",
+    "href": "index.html#bosque-aleatorio",
+    "title": "Desition Tree-Random Forest",
+    "section": "1.3 3. Bosque Aleatorio",
+    "text": "1.3 3. Bosque Aleatorio\n\n1.3.1 3.1 Descripción del Modelo\nEl Bosque Aleatorio es un conjunto de Árboles de Decisión entrenados con diferentes subconjuntos de datos y características. La predicción final se obtiene mediante la agregación de las predicciones individuales de los árboles (votación en el caso de clasificación, promedio en el caso de regresión).\n\n\n1.3.2 3.2 Ventajas y Desventajas\n\nVentajas: Reduce el riesgo de sobreajuste, maneja grandes conjuntos de datos y alta dimensionalidad, mejora la precisión del modelo.\nDesventajas: Más complejo y computacionalmente costoso que un solo Árbol de Decisión, menos interpretable.\n\n\n\n1.3.3 3.3 Implementación\nSe describe el proceso de implementación del Bosque Aleatorio utilizando la biblioteca scikit-learn en Python, incluyendo la selección de hiperparámetros, la validación cruzada y la evaluación del modelo.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Índice Detallado</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#comparación-de-modelos",
+    "href": "index.html#comparación-de-modelos",
+    "title": "Desition Tree-Random Forest",
+    "section": "1.4 4. Comparación de Modelos",
+    "text": "1.4 4. Comparación de Modelos\nSe realiza una comparación detallada entre el Árbol de Decisión y el Bosque Aleatorio en términos de precisión, capacidad de generalización, tiempo de entrenamiento y complejidad.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Índice Detallado</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#conclusiones",
+    "href": "index.html#conclusiones",
+    "title": "Desition Tree-Random Forest",
+    "section": "1.5 5. Conclusiones",
+    "text": "1.5 5. Conclusiones\nSe resumen los hallazgos clave y se discuten las implicaciones prácticas de utilizar Árboles de Decisión y Bosques Aleatorios en diferentes contextos de análisis de datos.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Índice Detallado</span>"
+    ]
+  },
+  {
+    "objectID": "randomforest_model.html#ajustar-el-modelo-de-random-forest",
+    "href": "randomforest_model.html#ajustar-el-modelo-de-random-forest",
+    "title": "2  Árbol de Decisión y Random Forest: La Calificación de los Partidos Políticos en México",
+    "section": "6.2 Ajustar el Modelo de Random Forest:",
+    "text": "6.2 Ajustar el Modelo de Random Forest:\nSe ajusta el modelo de Random Forest con los datos de entrenamiento.\n\n\nMostrar el Código\nmodelo_rf = RandomForestClassifier(n_estimators=100, random_state=42)\nmodelo_rf.fit(X_train, y_train)\n\n\nRandomForestClassifier(random_state=42)In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.RandomForestClassifier?Documentation for RandomForestClassifieriFittedRandomForestClassifier(random_state=42)",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Árbol de Decisión y Random Forest: La Calificación de los Partidos Políticos en México</span>"
+    ]
+  }
+]

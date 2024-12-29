@@ -1,0 +1,35 @@
+---
+css: custom.css
+---
+# Índice Detallado {.fade-in}
+
+## 1. Introducción {.fade-in}
+En este documento se presentan dos modelos de aprendizaje supervisado: un Árbol de Decisión y un Bosque Aleatorio. Ambos modelos son ampliamente utilizados en la clasificación y regresión debido a su capacidad para manejar datos complejos y no lineales.
+
+## 2. Árbol de Decisión
+### 2.1 Descripción del Modelo
+El Árbol de Decisión es un modelo predictivo que utiliza un conjunto de reglas de decisión derivadas de los datos para realizar predicciones. Cada nodo interno representa una prueba en un atributo, cada rama representa el resultado de la prueba y cada hoja representa una etiqueta de clase.
+
+### 2.2 Ventajas y Desventajas
+- **Ventajas**: Fácil de interpretar y visualizar, no requiere normalización de datos, puede manejar datos categóricos y numéricos.
+- **Desventajas**: Propenso al sobreajuste, puede ser inestable con pequeñas variaciones en los datos.
+
+### 2.3 Implementación
+Se describe el proceso de implementación del Árbol de Decisión utilizando la biblioteca `scikit-learn` en Python, incluyendo la selección de hiperparámetros y la evaluación del modelo.
+
+## 3. Bosque Aleatorio
+### 3.1 Descripción del Modelo
+El Bosque Aleatorio es un conjunto de Árboles de Decisión entrenados con diferentes subconjuntos de datos y características. La predicción final se obtiene mediante la agregación de las predicciones individuales de los árboles (votación en el caso de clasificación, promedio en el caso de regresión).
+
+### 3.2 Ventajas y Desventajas
+- **Ventajas**: Reduce el riesgo de sobreajuste, maneja grandes conjuntos de datos y alta dimensionalidad, mejora la precisión del modelo.
+- **Desventajas**: Más complejo y computacionalmente costoso que un solo Árbol de Decisión, menos interpretable.
+
+### 3.3 Implementación
+Se describe el proceso de implementación del Bosque Aleatorio utilizando la biblioteca `scikit-learn` en Python, incluyendo la selección de hiperparámetros, la validación cruzada y la evaluación del modelo.
+
+## 4. Comparación de Modelos
+Se realiza una comparación detallada entre el Árbol de Decisión y el Bosque Aleatorio en términos de precisión, capacidad de generalización, tiempo de entrenamiento y complejidad.
+
+## 5. Conclusiones
+Se resumen los hallazgos clave y se discuten las implicaciones prácticas de utilizar Árboles de Decisión y Bosques Aleatorios en diferentes contextos de análisis de datos.
