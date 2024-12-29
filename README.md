@@ -61,6 +61,9 @@ Random_Forest_Project/
 
 Esta estructura permite organizar el proyecto de manera clara y facilita la colaboración y el mantenimiento del código.
 
+## Visualización del Proyecto:
+Para más detalles, visita mi [sitio web](https://eduard088.github.io/Random_Forest_Tesis_ML/).
+
 ## Contribuciones
 
 Las contribuciones son bienvenidas. Por favor, abre un issue o envía un pull request para discutir cualquier cambio.
